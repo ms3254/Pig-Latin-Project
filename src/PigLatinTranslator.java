@@ -27,13 +27,26 @@ public class PigLatinTranslator
 
   private static String translateWord(String input)
   {
-    // System.out.println("translateWord: '" + input + "'");
-
-    // Replace this code to correctly translate a single word.
-    // Start here first!
-    String result = input;
+    System.out.println("translateWord: '" + input + "'");
+    String result1 = input;
+    String vowels = "aeiouAEIOU";
+    String endpart = "";
+    for (int i=0;i<vowels.length();i++){
+      if (vowels.substring(i,i+1).equals(result1.substring(0,1))){
+        result1 += "ay";
+        return result1;
+      } /*else {
+        for (int j=0;j<input.length()-1;i++){
+          if (input.substring(i,i+1).equals(vowels.substring(i,i+1))){
+            endpart += input.substring(i,i+1);
+          }
+        }
+        result1 += endpart + "ay";*/
+      //return result1;
+      }
+    }
     
-    return result;
+  return input;
   }
 
   // Add additonal private methods here.
