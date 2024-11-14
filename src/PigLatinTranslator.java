@@ -27,26 +27,29 @@ public class PigLatinTranslator
 
   private static String translateWord(String input)
   {
-    System.out.println("translateWord: '" + input + "'");
+    //System.out.println("translateWord: '" + input + "'");
     String result1 = input;
     String vowels = "aeiouAEIOU";
     String endpart = "";
-    for (int i=0;i<vowels.length();i++){
-      if (vowels.substring(i,i+1).equals(result1.substring(0,1))){
-        result1 += "ay";
+    for (int i=0; i<input.length(); i++){
+      if (vowels.indexOf(input.substring(i,i+1))>=0){
+        endpart += input.substring(0,i);
+        result1 = result1.substring(i);
+        result1 += endpart + "ay";
         return result1;
-      } /*else {
-        for (int j=0;j<input.length()-1;i++){
-          if (input.substring(i,i+1).equals(vowels.substring(i,i+1))){
-            endpart += input.substring(i,i+1);
-          }
-        }
-        result1 += endpart + "ay";*/
-      //return result1;
       }
+      /*if (vowels.indexOf(input.substring(i,i+1))>=0){
+        System.out.println("before" + input);
+        endpart += input.substring(0,i+1);
+        System.out.println("endpart: " + endpart);
+        result1 = input.substring(i);
+        System.out.println("after:" + input);
+      } else {
+        result1 = input + endpart + "ay";
+        break;
+      }*/
     }
-    
-  return input;
+    return result1;
   }
 
   // Add additonal private methods here.
