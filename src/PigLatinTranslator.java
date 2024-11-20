@@ -16,21 +16,33 @@ public class PigLatinTranslator
   {
     String result = "";
     String word = "";
+    int startIndex = 0;
+
+    boolean wasLetter = false;
+    for (int i=0;i<input.length();i++){
+      boolean isLetter = Character.isLetterOrDigit(input.charAt(i));
+      if (wasLetter!=isLetter){
+        if (isLetter){
+          result += input.substring(startIndex, i);
+          System.out.println("Result:" + result);
+          startIndex = i;
+          wasLetter = true;
+          System.out.println(startIndex);
+        }
+        else {
+          word = input.substring(startIndex,i);
+          result += translateWord(word);
+          startIndex = i;
+          wasLetter = false;
+        }
+      }
+    }
     // System.out.println("Translate String: '" + input + "'");
 
     // Replace this code to translate a string input.
     // The input to this function could be any English string. 
     // A sentence, paragraph, or a single word. 
     // It should call translateWord at least once.
-    /*for (int i=0;i<input.length();i++){
-      if (Character.isLetterOrDigit(input.charAt(i))){
-        while (Character.isLetterOrDigit(input.charAt(i+1))){
-          word += input.charAt(i);
-        }
-        word = translateWord(word);
-        result += word;
-      }
-    }*/
 
     return result;
   }
@@ -61,17 +73,15 @@ public class PigLatinTranslator
   }
   private static String wordFinder(String input){
     boolean wasLetter = false;
-    for (int i=0;i<input.length();i++){
+    /*for (int i=0;i<input.length();i++){
       boolean isLetter = Character.isLetterOrDigit(input.charAt(i));
       if (wasLetter!=isLetter){
         if (isLetter){
           return input.substring(i,i+1);
         }
         else {
-          
-        }
-      }
-    }
+          return translateWord(input.substring());
+        }*/
     return input;
   }
 }
