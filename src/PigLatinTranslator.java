@@ -22,28 +22,30 @@ public class PigLatinTranslator
     for (int i=0;i<input.length();i++){
       boolean isLetter = Character.isLetterOrDigit(input.charAt(i));
       if (wasLetter!=isLetter){
+        //start of word, end of nonword
         if (isLetter){
-          result += input.substring(startIndex, i);
-          System.out.println("Result:" + result);
-          startIndex = i;
-          wasLetter = true;
-          System.out.println(startIndex);
-        }
-        else {
+            //add nonword
+            String nonWord = input.substring(startIndex, i);
+            result += nonWord;
+            if (i==input.length()-1){
+              result += input.substring(input.length()-1);
+            }
+        //start of nonword, end of word
+        } else {
+          //add word
           word = input.substring(startIndex,i);
           result += translateWord(word);
-          startIndex = i;
-          wasLetter = false;
         }
+        startIndex = i;
+        wasLetter = isLetter;
+      //last letter of string
+      } else if (isLetter && i==input.length()-1){
+        word = input.substring(startIndex);
+        result += translateWord(word);
+      } else if ((!(isLetter)) && i==input.length()-1){
+        result += input.substring(startIndex);
       }
     }
-    // System.out.println("Translate String: '" + input + "'");
-
-    // Replace this code to translate a string input.
-    // The input to this function could be any English string. 
-    // A sentence, paragraph, or a single word. 
-    // It should call translateWord at least once.
-
     return result;
   }
 
@@ -51,17 +53,23 @@ public class PigLatinTranslator
   {
     //System.out.println("translateWord: '" + input + "'");
     String result1 = input;
-    String vowels = "aeiou";
-    String vowelsCap = "AEIOU";
-    String consoCap = "BCDFGHJKLMNPQRSTVWXYZ";
+    String vowels = "aeiouyAEIOUY";
     String endpart = "";
+    boolean wasFirstCapital = false;
+    if (Character.isUpperCase(input.charAt(0))){
+      input = lowercaseFirstLetter(input);
+      wasFirstCapital = true;
+    }
     for (int i=0; i<input.length(); i++){
       if (vowels.indexOf(input.substring(i,i+1))>=0){
         endpart += input.substring(0,i);
         result1 = result1.substring(i);
         result1 += endpart + "ay";
-        return result1;
+        break;
       }
+    }
+    if (wasFirstCapital==true){
+      result1 = capitalizeFirstLetter(result1);
     }
     return result1;
   }
@@ -69,19 +77,13 @@ public class PigLatinTranslator
   // Add additonal private methods here.
   // For example, I had one like this:
   private static String capitalizeFirstLetter(String input) {
-    return input.replace(input.substring(0,0+1),input.substring(0,0+1).toUpperCase());
+    String firstLetter = input.substring(0,1);
+    input = input.replaceFirst(firstLetter,firstLetter.toUpperCase());
+    return input;
   }
-  private static String wordFinder(String input){
-    boolean wasLetter = false;
-    /*for (int i=0;i<input.length();i++){
-      boolean isLetter = Character.isLetterOrDigit(input.charAt(i));
-      if (wasLetter!=isLetter){
-        if (isLetter){
-          return input.substring(i,i+1);
-        }
-        else {
-          return translateWord(input.substring());
-        }*/
+  private static String lowercaseFirstLetter(String input){
+    String firstLetter = input.substring(0,1);
+    input = input.replaceFirst(firstLetter,firstLetter.toLowerCase());
     return input;
   }
 }

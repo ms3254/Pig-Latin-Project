@@ -30,12 +30,13 @@ public class App {
         // Get this to work, and all the tests to pass first.
         input.readFromString("Test", "Dog\nCat\nMouse");
 
-        // Example reading from a URL
-        //input.readFromUrl("Romeo and Juliette", "https://gutenberg.pglaf.org/cache/epub/1513/pg1513.txt");
+        //Example reading from a URL
+        input.readFromUrl("Romeo and Juliette", "https://gutenberg.pglaf.org/cache/epub/1513/pg1513.txt");
 
-        input.printlines(0,2);
+        input.printlines(101,3);
         Book output = PigLatinTranslator.translate(input);
-        output.printlines(0,2);
+        
+        output.printlines(101,3);
         //output.writeToFile();
     }
 }
