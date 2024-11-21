@@ -20,21 +20,24 @@ public class PigLatinTranslator
 
     boolean wasLetter = false;
     for (int i=0;i<input.length();i++){
-      boolean isLetter = Character.isLetterOrDigit(input.charAt(i));
+      boolean isLetter = Character.isLetter(input.charAt(i));
       if (wasLetter!=isLetter){
         //start of word, end of nonword
         if (isLetter){
             //add nonword
             String nonWord = input.substring(startIndex, i);
             result += nonWord;
-            if (i==input.length()-1){
-              result += input.substring(input.length()-1);
-            }
+            //System.out.println("nonWord: " + nonWord);
+            //System.out.println("wasLetter: " + wasLetter);
+            //System.out.println("i: " + i);
         //start of nonword, end of word
         } else {
           //add word
           word = input.substring(startIndex,i);
           result += translateWord(word);
+          if (i==input.length()-1){
+            result += input.substring(i);
+          }
         }
         startIndex = i;
         wasLetter = isLetter;
