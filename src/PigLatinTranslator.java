@@ -6,8 +6,14 @@ public class PigLatinTranslator
   {
     Book translatedBook = new Book();
 
-    // Add code here to populate translatedBook with a translation of the input book.
-    // Curent do-nothing code will return an empty book.
+    String title = input.getTitle();
+    title = translate(title);
+    translatedBook.setTitle(title);
+
+    for (int i=0;i<input.getLineCount();i++){
+      String line = input.getLine(i);
+      translatedBook.appendLine(translate(line));
+    }
 
     return translatedBook;
   }
@@ -59,20 +65,46 @@ public class PigLatinTranslator
     String vowels = "aeiouyAEIOUY";
     String endpart = "";
     boolean wasFirstCapital = false;
+    boolean wholeCapital = true;
     if (Character.isUpperCase(input.charAt(0))){
       input = lowercaseFirstLetter(input);
       wasFirstCapital = true;
+    }
+    if (input.length()>1){
+      for (int i=0;i<input.length()-1;i++){
+        if (!(Character.isUpperCase(input.charAt(i)))){
+          wholeCapital = false;
+        } else {
+          wholeCapital = true;
+        }
+      }
+    }
+    if (input.length()==1){
+      if (Character.isUpperCase(input.charAt(0))){
+        result1 += "AY";
+        return result1;
+      } else {
+        result1 += "ay";
+        return result1;
+      }
     }
     for (int i=0; i<input.length(); i++){
       if (vowels.indexOf(input.substring(i,i+1))>=0){
         endpart += input.substring(0,i);
         result1 = result1.substring(i);
-        result1 += endpart + "ay";
+        if (wholeCapital){
+          result1 += endpart + "AY";
+        } else {
+          result1 += endpart + "ay";
+        }
         break;
       }
     }
     if (wasFirstCapital==true){
       result1 = capitalizeFirstLetter(result1);
+    }
+    if (wholeCapital==true){
+      result1 = result1.toUpperCase();
     }
     return result1;
   }
